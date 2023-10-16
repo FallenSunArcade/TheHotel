@@ -1,0 +1,16 @@
+Intermediate/*
+Plugins/*/Intermediate/*
+Saved/*
+DerivedDataCache/*
+Binaries/*
+Plugins/*/Binaries/*
+.vs/
+*.sln
+.idea/*
+Platforms/*
+.vsconfig
+Build/
+Content/StarterContent/*
+.vscode/*
+HTL.code-workspace
+Plugins/FMODStudio/FMODStudio/Binaries/Win64/*

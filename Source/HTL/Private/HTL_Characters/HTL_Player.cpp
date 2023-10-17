@@ -58,6 +58,27 @@ void AHTL_Player::Tick(float DeltaTime)
 
 	CurrentSpeed = FMath::FInterpTo(CurrentSpeed, TargetSpeed, DeltaTime, SprintingInterpSpeed);
 
+	const float Speed = GetVelocity().Length();
+	EMovementState NewMovementState;
+	
+	if(Speed <= 0.f)
+	{
+		NewMovementState = EMovementState::Idle;
+	}
+	else if(Speed <= WalkSpeed)
+	{
+		NewMovementState = EMovementState::Walking;
+	}
+	else
+	{
+		NewMovementState = EMovementState::Sprinting;
+	}
+
+	if(MovementState != NewMovementState)
+	{
+		UpdateMovement(NewMovementState);
+		MovementState = NewMovementState;
+	}
 	
 	GetCapsuleComponent()->SetCapsuleHalfHeight(CurrentCapsuleHeight);
 	GetCharacterMovement()->MaxWalkSpeed = CurrentSpeed;

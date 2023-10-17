@@ -8,6 +8,14 @@
 #include "GameFramework/Character.h"
 #include "HTL_Player.generated.h"
 
+UENUM(BlueprintType)
+enum class EMovementState : uint8
+{
+	Idle,
+	Walking,
+	Sprinting   
+};
+
 class UInputComponent;
 class UCameraComponent;
 class UInputAction;
@@ -39,6 +47,9 @@ protected:
 	void StartSprint(const FInputActionValue& Value);
 
 	void EndSprint(const FInputActionValue& Value);
+
+	UFUNCTION(BlueprintImplementableEvent)
+	void UpdateMovement(const EMovementState& State);
 
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -87,6 +98,9 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float SprintingInterpSpeed = 10.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	EMovementState MovementState = EMovementState::Idle;
 
 	float CurrentSpeed = 0.f;
 

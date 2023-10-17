@@ -53,8 +53,6 @@ void AHTLCharacter::BeginPlay()
 
 }
 
-//////////////////////////////////////////////////////////////////////////// Input
-
 void AHTLCharacter::SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent)
 {
 	// Set up action bindings

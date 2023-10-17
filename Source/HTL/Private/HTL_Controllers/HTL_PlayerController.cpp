@@ -2,6 +2,7 @@
 
 
 #include "HTL_Controllers/HTL_PlayerController.h"
+#include "HTL_UI/HTL_HudOverlay.h"
 
 AHTL_PlayerController::AHTL_PlayerController()
 {
@@ -16,4 +17,15 @@ void AHTL_PlayerController::BeginPlay()
 	SetInputMode(InputModeGameOnly);
 	SetShowMouseCursor(false);
 	FlushPressedKeys();
+	
+	if(*HudOverlayWidgetClass)
+	{
+		HudOverlayRef = CreateWidget<UHTL_HudOverlay>(this, HudOverlayWidgetClass);
+
+		if(HudOverlayRef)
+		{
+			HudOverlayRef->AddToViewport();
+			HudOverlayRef->SetVisibility(ESlateVisibility::Visible);
+		}
+	}
 }

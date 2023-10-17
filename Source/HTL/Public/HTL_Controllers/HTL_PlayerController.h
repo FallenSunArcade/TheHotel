@@ -6,9 +6,8 @@
 #include "GameFramework/PlayerController.h"
 #include "HTL_PlayerController.generated.h"
 
-/**
- * 
- */
+class UHTL_HudOverlay;
+
 UCLASS()
 class HTL_API AHTL_PlayerController : public APlayerController
 {
@@ -19,4 +18,11 @@ public:
 	
 protected:
 	virtual void BeginPlay() override;
+
+private:
+	UPROPERTY(EditAnywhere, Category = "Menu")
+	TSubclassOf<UHTL_HudOverlay> HudOverlayWidgetClass;
+
+	UPROPERTY()
+	UHTL_HudOverlay* HudOverlayRef = nullptr;
 };

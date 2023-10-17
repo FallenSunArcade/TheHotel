@@ -32,6 +32,14 @@ protected:
 	
 	void Look(const FInputActionValue& Value);
 
+	void StartCrouch(const FInputActionValue& Value);
+
+	void EndCrouch(const FInputActionValue& Value);
+
+	void StartSprint(const FInputActionValue& Value);
+
+	void EndSprint(const FInputActionValue& Value);
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;
@@ -44,4 +52,47 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* LookAction;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* StartCrouchAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* EndCrouchAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* StartSprintAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Player Input", meta = (AllowPrivateAccess = "true"))
+	UInputAction* EndSprintAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float CrouchCapsuleHeight = 32.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float StandingCapsuleHeight = 88.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float CrouchingInterpSpeed = 10.f;
+
+	float CurrentCapsuleHeight = 0.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float CrouchSpeed = 250.f;
+	
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float WalkSpeed = 500.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float SprintSpeed = 1000.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
+	float SprintingInterpSpeed = 10.f;
+
+	float CurrentSpeed = 0.f;
+
+	float TargetSpeed = 500.f;
+
+	bool bIsSprinting = false;
+
+	bool bIsCrouching = false;
 };

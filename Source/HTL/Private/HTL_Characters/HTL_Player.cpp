@@ -1,6 +1,5 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
-
 #include "HTL/Public/HTL_Characters/HTL_Player.h"
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
@@ -23,7 +22,6 @@ AHTL_Player::AHTL_Player()
 	GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 	
-	
 	FirstPersonCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("FirstPersonCamera"));
 	FirstPersonCameraComponent->SetupAttachment(GetCapsuleComponent());
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
@@ -40,12 +38,27 @@ void AHTL_Player::BeginPlay()
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
 	}
-	
 }
 
 void AHTL_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	// For Crouching
+	if(bIsCrouching)
+	{
+		CurrentCapsuleHeight = FMath::FInterpTo(CurrentCapsuleHeight, CrouchCapsuleHeight, DeltaTime, CrouchingInterpSpeed);
+	}
+	else
+	{
+		CurrentCapsuleHeight = FMath::FInterpTo(CurrentCapsuleHeight, StandingCapsuleHeight, DeltaTime, CrouchingInterpSpeed);
+	}
+
+	CurrentSpeed = FMath::FInterpTo(CurrentSpeed, TargetSpeed, DeltaTime, SprintingInterpSpeed);
+
+	
+	GetCapsuleComponent()->SetCapsuleHalfHeight(CurrentCapsuleHeight);
+	GetCharacterMovement()->MaxWalkSpeed = CurrentSpeed;
 }
 
 void AHTL_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -56,6 +69,10 @@ void AHTL_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &AHTL_Player::Move);
 		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &AHTL_Player::Look);
+		EnhancedInputComponent->BindAction(StartCrouchAction, ETriggerEvent::Triggered, this, &AHTL_Player::StartCrouch);
+		EnhancedInputComponent->BindAction(EndCrouchAction, ETriggerEvent::Triggered, this, &AHTL_Player::EndCrouch);
+		EnhancedInputComponent->BindAction(StartSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::StartSprint);
+		EnhancedInputComponent->BindAction(EndSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::EndSprint);
 	}
 }
 
@@ -79,5 +96,40 @@ void AHTL_Player::Look(const FInputActionValue& Value)
 		AddControllerYawInput(-LookAxisVector.X);
 		AddControllerPitchInput(LookAxisVector.Y);
 	}
+}
+
+void AHTL_Player::StartCrouch(const FInputActionValue& Value)
+{
+	if(!bIsSprinting)
+	{
+		bIsCrouching = true;
+		TargetSpeed = CrouchSpeed;
+		GetCharacterMovement()->MinAnalogWalkSpeed = 10.f;
+	}
+}
+
+void AHTL_Player::EndCrouch(const FInputActionValue& Value)
+{
+	if(!bIsSprinting)
+	{
+		bIsCrouching = false;
+		TargetSpeed = WalkSpeed;
+		GetCharacterMovement()->MinAnalogWalkSpeed = 20.f;
+	}
+}
+
+void AHTL_Player::StartSprint(const FInputActionValue& Value)
+{
+	bIsSprinting = true;
+	bIsCrouching = false;
+
+	TargetSpeed = SprintSpeed;
+}
+
+void AHTL_Player::EndSprint(const FInputActionValue& Value)
+{
+	bIsSprinting = false;
+
+	TargetSpeed = WalkSpeed;
 }
 

@@ -65,13 +65,13 @@ void AHTL_Player::Tick(float DeltaTime)
 	{
 		NewMovementState = EMovementState::Idle;
 	}
-	else if(Speed <= WalkSpeed)
+	else if(Speed == SprintSpeed)
 	{
-		NewMovementState = EMovementState::Walking;
+		NewMovementState = EMovementState::Sprinting;
 	}
 	else
 	{
-		NewMovementState = EMovementState::Sprinting;
+		NewMovementState = EMovementState::Walking;
 	}
 
 	if(MovementState != NewMovementState)

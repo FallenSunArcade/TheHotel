@@ -29,6 +29,8 @@ class HTL_API AHTL_Player : public ACharacter
 public:
 	AHTL_Player();
 
+	UCameraComponent* GetCameraComponent() const {return FirstPersonCameraComponent;}
+	
 protected:
 	virtual void BeginPlay() override;
 

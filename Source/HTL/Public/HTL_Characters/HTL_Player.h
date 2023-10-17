@@ -90,7 +90,7 @@ private:
 
 	float CurrentSpeed = 0.f;
 
-	float TargetSpeed = 500.f;
+	float TargetSpeed = 0.f;
 
 	bool bIsSprinting = false;
 

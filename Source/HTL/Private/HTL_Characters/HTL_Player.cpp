@@ -31,6 +31,8 @@ void AHTL_Player::BeginPlay()
 {
 	Super::BeginPlay();
 
+	TargetSpeed = WalkSpeed;
+
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))

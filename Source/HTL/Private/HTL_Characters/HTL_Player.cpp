@@ -164,10 +164,7 @@ void AHTL_Player::ZoomIn(const FInputActionValue& Value)
 		
 	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
 	
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("CurrentFOV: %f"), CurrentFOV));
-	}
+	ZoomingCameraIn();
 }
 
 void AHTL_Player::ZoomOut(const FInputActionValue& Value)
@@ -176,9 +173,6 @@ void AHTL_Player::ZoomOut(const FInputActionValue& Value)
 		
 	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
 
-	if (GEngine)
-	{
-		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("CurrentFOV: %f"), CurrentFOV));
-	}
+	ZoomingCameraOut();
 }
 

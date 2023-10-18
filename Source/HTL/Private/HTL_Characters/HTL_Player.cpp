@@ -64,14 +64,17 @@ void AHTL_Player::Tick(float DeltaTime)
 	if(Speed <= 0.f)
 	{
 		NewMovementState = EMovementState::Idle;
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(IdleCameraShakeClass);
 	}
 	else if(Speed == SprintSpeed)
 	{
 		NewMovementState = EMovementState::Sprinting;
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 1);
 	}
 	else
 	{
 		NewMovementState = EMovementState::Walking;
+		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 2);
 	}
 
 	if(MovementState != NewMovementState)

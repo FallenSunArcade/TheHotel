@@ -20,6 +20,7 @@ class UInputComponent;
 class UCameraComponent;
 class UInputAction;
 class UInputMappingContext;
+class UCameraShakeBase;
 
 UCLASS()
 class HTL_API AHTL_Player : public ACharacter
@@ -76,6 +77,12 @@ private:
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	float ZoomSpeed;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> IdleCameraShakeClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
+	TSubclassOf<UCameraShakeBase> WalkCameraShakeClass;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta=(AllowPrivateAccess = "true"))
 	UInputMappingContext* DefaultMappingContext;

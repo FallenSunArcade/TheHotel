@@ -45,7 +45,7 @@ void AHTL_Player::BeginPlay()
 void AHTL_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 	// For Crouching
 	if(bIsCrouching)
 	{
@@ -96,6 +96,8 @@ void AHTL_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		EnhancedInputComponent->BindAction(EndCrouchAction, ETriggerEvent::Triggered, this, &AHTL_Player::EndCrouch);
 		EnhancedInputComponent->BindAction(StartSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::StartSprint);
 		EnhancedInputComponent->BindAction(EndSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::EndSprint);
+		EnhancedInputComponent->BindAction(ZoomInAction, ETriggerEvent::Triggered, this, &AHTL_Player::ZoomIn);
+		EnhancedInputComponent->BindAction(ZoomOutAction, ETriggerEvent::Triggered, this, &AHTL_Player::ZoomOut);
 	}
 }
 
@@ -154,5 +156,29 @@ void AHTL_Player::EndSprint(const FInputActionValue& Value)
 	bIsSprinting = false;
 
 	TargetSpeed = WalkSpeed;
+}
+
+void AHTL_Player::ZoomIn(const FInputActionValue& Value)
+{
+	CurrentFOV = FMath::FInterpTo(CurrentFOV, MaxZoom, GetWorld()->GetDeltaSeconds(), ZoomSpeed);
+		
+	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
+	
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("CurrentFOV: %f"), CurrentFOV));
+	}
+}
+
+void AHTL_Player::ZoomOut(const FInputActionValue& Value)
+{
+	CurrentFOV = FMath::FInterpTo(CurrentFOV, 90, GetWorld()->GetDeltaSeconds(), ZoomSpeed);
+		
+	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
+
+	if (GEngine)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 0.f, FColor::Red, FString::Printf(TEXT("CurrentFOV: %f"), CurrentFOV));
+	}
 }
 

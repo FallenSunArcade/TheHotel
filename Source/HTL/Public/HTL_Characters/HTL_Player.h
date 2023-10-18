@@ -51,14 +51,18 @@ protected:
 	void EndSprint(const FInputActionValue& Value);
 
 	void ZoomIn(const FInputActionValue& Value);
+	
+	void StopZoomIn(const FInputActionValue& Value);
 
 	void ZoomOut(const FInputActionValue& Value);
+	
+	void StopZoomOut(const FInputActionValue& Value);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateMovement(const EMovementState& State);
 
 	UFUNCTION(BlueprintImplementableEvent)
-	void ZoomingCameraIn();
+	void ZoomingCamera(bool IsZooming);
 
 	UFUNCTION(BlueprintImplementableEvent)
 	void ZoomingCameraOut();
@@ -96,9 +100,15 @@ private:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ZoomInAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* StopZoomInAction;
 	
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* ZoomOutAction;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* StopZoomOutAction;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float CrouchCapsuleHeight = 32.f;

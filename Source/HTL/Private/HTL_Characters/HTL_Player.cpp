@@ -97,7 +97,9 @@ void AHTL_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		EnhancedInputComponent->BindAction(StartSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::StartSprint);
 		EnhancedInputComponent->BindAction(EndSprintAction, ETriggerEvent::Triggered, this, &AHTL_Player::EndSprint);
 		EnhancedInputComponent->BindAction(ZoomInAction, ETriggerEvent::Triggered, this, &AHTL_Player::ZoomIn);
+		EnhancedInputComponent->BindAction(StopZoomInAction, ETriggerEvent::Triggered, this, &AHTL_Player::StopZoomIn);
 		EnhancedInputComponent->BindAction(ZoomOutAction, ETriggerEvent::Triggered, this, &AHTL_Player::ZoomOut);
+		EnhancedInputComponent->BindAction(StopZoomOutAction, ETriggerEvent::Triggered, this, &AHTL_Player::StopZoomOut);
 	}
 }
 
@@ -163,8 +165,25 @@ void AHTL_Player::ZoomIn(const FInputActionValue& Value)
 	CurrentFOV = FMath::FInterpTo(CurrentFOV, MaxZoom, GetWorld()->GetDeltaSeconds(), ZoomSpeed);
 		
 	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
-	
-	ZoomingCameraIn();
+
+	if(CurrentFOV > (MaxZoom + 1))
+	{
+		ZoomingCamera(true);
+	}
+	else
+	{
+		ZoomingCamera(false);
+	}
+}
+
+void AHTL_Player::StopZoomIn(const FInputActionValue& Value)
+{
+	ZoomingCamera(false);
+}
+
+void AHTL_Player::StopZoomOut(const FInputActionValue& Value)
+{
+	ZoomingCamera(false);
 }
 
 void AHTL_Player::ZoomOut(const FInputActionValue& Value)
@@ -173,6 +192,13 @@ void AHTL_Player::ZoomOut(const FInputActionValue& Value)
 		
 	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
 
-	ZoomingCameraOut();
+	if(CurrentFOV < 89)
+	{
+		ZoomingCamera(true);
+	}
+	else
+	{
+		ZoomingCamera(false);
+	}
 }
 

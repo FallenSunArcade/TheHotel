@@ -3,3 +3,7 @@
 
 #include "HTL_UI/HTL_HudOverlay.h"
 
+void UHTL_HudOverlay::NativeOnInitialized()
+{
+	Super::NativeOnInitialized();
+}

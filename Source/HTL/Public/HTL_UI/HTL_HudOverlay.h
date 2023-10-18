@@ -12,13 +12,4 @@ UCLASS()
 class HTL_API UHTL_HudOverlay : public UUserWidget
 {
 	GENERATED_BODY()
-	
-	virtual void NativeOnInitialized() override;
-	
-protected:
-	virtual void NativeTick(const FGeometry& MyGeometry, float InDeltaTime) override;
-
-private:
-	UPROPERTY()
-	AHTL_Player* PlayerRef = nullptr;
 };

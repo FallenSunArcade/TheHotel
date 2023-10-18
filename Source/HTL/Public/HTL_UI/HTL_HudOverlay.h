@@ -12,4 +12,7 @@ UCLASS()
 class HTL_API UHTL_HudOverlay : public UUserWidget
 {
 	GENERATED_BODY()
+
+public:
+	virtual void NativeOnInitialized() override;
 };

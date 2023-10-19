@@ -191,7 +191,14 @@ void AHTL_Player::StopZoomOut(const FInputActionValue& Value)
 
 void AHTL_Player::ZoomOut(const FInputActionValue& Value)
 {
-	CurrentFOV = FMath::FInterpTo(CurrentFOV, 90, GetWorld()->GetDeltaSeconds(), ZoomSpeed);
+	float StartSpeed = 1.0f; 
+	float MaxSpeed = 5.0f;
+	
+	float DistanceToTarget = FMath::Abs(90.f - CurrentFOV);
+
+	float DynamicInterpSpeed = FMath::Lerp(MaxSpeed, StartSpeed, DistanceToTarget / 100.0f); 
+	
+	CurrentFOV = FMath::FInterpTo(CurrentFOV, 90, GetWorld()->GetDeltaSeconds(), DynamicInterpSpeed);
 		
 	FirstPersonCameraComponent->SetFieldOfView(CurrentFOV);
 

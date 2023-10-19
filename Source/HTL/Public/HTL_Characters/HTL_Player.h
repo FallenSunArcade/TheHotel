@@ -65,9 +65,6 @@ protected:
 	UFUNCTION(BlueprintImplementableEvent)
 	void ZoomingCamera(bool IsZooming);
 
-	UFUNCTION(BlueprintImplementableEvent)
-	void ZoomingCameraOut();
-
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
 	UCameraComponent* FirstPersonCameraComponent;

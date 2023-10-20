@@ -119,7 +119,7 @@ void AHTL_Player::Move(const FInputActionValue& Value)
 
 void AHTL_Player::Look(const FInputActionValue& Value)
 {
-	FVector2D LookAxisVector = Value.Get<FVector2D>();
+	const FVector2D LookAxisVector = Value.Get<FVector2D>();
 
 	if (Controller != nullptr)
 	{

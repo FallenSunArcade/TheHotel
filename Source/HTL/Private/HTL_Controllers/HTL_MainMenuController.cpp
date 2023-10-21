@@ -33,6 +33,12 @@ void AHTL_MainMenuController::BeginPlay()
 			SetShowMouseCursor(true);
 		}
 	}
+}
+
+void AHTL_MainMenuController::GameStarted()
+{
+	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
+	CameraActor->StartPressed();
 
 	if (IntroMediaPlayer && IntroMediaSource)
 	{
@@ -41,12 +47,6 @@ void AHTL_MainMenuController::BeginPlay()
 		IntroMediaPlayer->Play();
 		IntroMediaPlayer->SetLooping(false);
 	}
-}
-
-void AHTL_MainMenuController::GameStarted()
-{
-	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
-	CameraActor->StartPressed();
 }
 
 void AHTL_MainMenuController::OnMediaFinished()

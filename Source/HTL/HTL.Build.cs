@@ -10,7 +10,7 @@ public class HTL : ModuleRules
 
 		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore",
 			"HeadMountedDisplay", "EnhancedInput", "UMG", "NavigationSystem", "FieldSystemEngine",
-			"AIModule", "GameplayTasks", "StateTreeModule", "Niagara", "GeometryCollectionEngine", "ChaosSolverEngine" });
+			"AIModule", "GameplayTasks", "StateTreeModule", "Niagara", "GeometryCollectionEngine", "ChaosSolverEngine",  "MediaAssets" });
 		
 		PrivateDependencyModuleNames.AddRange(new string[] { "Slate", "SlateCore" });
 	}

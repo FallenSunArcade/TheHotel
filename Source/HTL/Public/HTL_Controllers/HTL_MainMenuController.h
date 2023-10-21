@@ -7,6 +7,8 @@
 #include "HTL_MainMenuController.generated.h"
 
 class UHTL_MainMenu;
+class UMediaPlayer;
+class UMediaSource;
 
 UCLASS()
 class HTL_API AHTL_MainMenuController : public APlayerController
@@ -19,7 +21,19 @@ public:
 protected:
 	virtual void BeginPlay() override;
 
+	UFUNCTION()
+	void GameStarted();
+
+	UFUNCTION()
+	void OnMediaFinished();
+	
 private:
+	UPROPERTY(EditAnywhere, Category = "Intro Video")
+	UMediaPlayer* IntroMediaPlayer;
+    
+	UPROPERTY(EditAnywhere, Category = "Intro Video")
+	UMediaSource* IntroMediaSource;
+	
 	UPROPERTY(EditAnywhere, Category = "Menu")
 	TSubclassOf<UHTL_MainMenu> MenuWidgetClass;
 

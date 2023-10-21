@@ -12,11 +12,25 @@ AHTL_CameraActor::AHTL_CameraActor()
 
 	SceneComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Scene Root"));
 	SetRootComponent(SceneComponent);
+
+	TV = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TV"));
+	TV->SetupAttachment(RootComponent);
+	
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 	
 	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
+}
+
+void AHTL_CameraActor::StartPressed()
+{
+	TV->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	if(IntroMaterial)
+	{
+		TV->SetMaterial(4, IntroMaterial);
+	}
+	bStartPressed = true;
 }
 
 void AHTL_CameraActor::BeginPlay()
@@ -29,5 +43,12 @@ void AHTL_CameraActor::BeginPlay()
 void AHTL_CameraActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	if(bStartPressed)
+	{
+		FVector CurrentLocation = GetActorLocation();
+		FVector NewLocation = FMath::VInterpTo(CurrentLocation, ActorToLerpTo->GetActorLocation(), DeltaTime, MovementInterpolationSpeed);
+		SetActorLocation(NewLocation);
+	}
 }
 

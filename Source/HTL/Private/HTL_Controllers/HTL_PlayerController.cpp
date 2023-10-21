@@ -2,6 +2,7 @@
 
 
 #include "HTL_Controllers/HTL_PlayerController.h"
+#include "Kismet/GameplayStatics.h"
 #include "HTL_UI/HTL_HudOverlay.h"
 
 AHTL_PlayerController::AHTL_PlayerController()

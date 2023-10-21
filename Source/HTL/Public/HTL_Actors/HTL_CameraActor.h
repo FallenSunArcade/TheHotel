@@ -17,6 +17,8 @@ class HTL_API AHTL_CameraActor : public AActor
 public:
 	AHTL_CameraActor();
 
+	void StartPressed();
+	
 protected:
 	
 	virtual void BeginPlay() override;
@@ -24,6 +26,8 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 	USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
+
+	void ChangeToIntroMaterial();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -35,9 +39,24 @@ private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	UCameraComponent* CameraComponent;
 
-	UPROPERTY(EditAnywhere, Category = "Camera")
+	UPROPERTY(EditAnywhere, Category = TV)
+	UStaticMeshComponent* TV;
+
+	UPROPERTY(EditAnywhere, Category = TV)
+	UMaterialInterface* IntroMaterial = nullptr;
+	
+	UPROPERTY(EditAnywhere, Category = "Menu Camera")
 	float MaxSpeed;
 
+	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	bool bStartPressed = false;
+	
+	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	AActor* ActorToLerpTo = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	float MovementInterpolationSpeed  = 1.f;
+	
 	UPROPERTY()
 	APlayerController* PlayerController;
 };

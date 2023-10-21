@@ -2,7 +2,10 @@
 
 
 #include "HTL_Controllers/HTL_MainMenuController.h"
+#include "MediaPlayer.h"
+#include "HTL_Actors/HTL_CameraActor.h"
 #include "HTL_UI/HTL_MainMenu.h"
+#include "Kismet/GameplayStatics.h"
 
 AHTL_MainMenuController::AHTL_MainMenuController()
 {
@@ -26,7 +29,27 @@ void AHTL_MainMenuController::BeginPlay()
 		{
 			MainMenuRef->AddToViewport();
 			MainMenuRef->SetVisibility(ESlateVisibility::Visible);
+			MainMenuRef->StartDelegate.AddDynamic(this, &AHTL_MainMenuController::GameStarted);
 			SetShowMouseCursor(true);
 		}
 	}
+
+	if (IntroMediaPlayer && IntroMediaSource)
+	{
+		IntroMediaPlayer->OnEndReached.AddDynamic(this, &AHTL_MainMenuController::OnMediaFinished);
+		IntroMediaPlayer->OpenSource(IntroMediaSource);
+		IntroMediaPlayer->Play();
+		IntroMediaPlayer->SetLooping(false);
+	}
+}
+
+void AHTL_MainMenuController::GameStarted()
+{
+	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
+	CameraActor->StartPressed();
+}
+
+void AHTL_MainMenuController::OnMediaFinished()
+{
+	UGameplayStatics::OpenLevel(this, TEXT("Level1"));
 }

@@ -17,6 +17,11 @@ class HTL_API AHTL_PlayerController : public APlayerController
 	
 public:
 	AHTL_PlayerController();
+
+	void MakeTransition(bool IsFadeOut, float Delay, bool IsWhite);
+
+	UFUNCTION()
+	void TransitionEnded();
 	
 protected:
 	virtual void BeginPlay() override;

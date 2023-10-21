@@ -6,7 +6,9 @@
 #include "Blueprint/UserWidget.h"
 #include "HTL_HudOverlay.generated.h"
 
-class AHTL_Player;
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTransitionEndedDelegate);
+
+class UImage;
 
 UCLASS()
 class HTL_API UHTL_HudOverlay : public UUserWidget
@@ -15,4 +17,29 @@ class HTL_API UHTL_HudOverlay : public UUserWidget
 
 public:
 	virtual void NativeOnInitialized() override;
+
+	void StartGameTransition(bool IsFadeOut, float Delay, bool IsWhite);
+
+	UFUNCTION()
+	void FadingOut();
+	
+	UPROPERTY(BlueprintAssignable)
+	FTransitionEndedDelegate TransitionEndedDelegate;
+	
+protected:
+	void StartTransition(UImage* Transition, bool IsFadeOut, float Delay);
+	
+private:
+	UPROPERTY(meta = (BindWidget))
+	UImage* WhiteTransition = nullptr;
+
+	UPROPERTY(meta = (BindWidget))
+	UImage* BlackTransition = nullptr;
+
+	UPROPERTY()
+	UImage* CurrentTransition = nullptr;
+	
+	FTimerHandle GameTransitionHandle;
+
+	float Opacity = 0.f;
 };

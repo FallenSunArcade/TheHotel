@@ -9,6 +9,7 @@
 class UHTL_MainMenu;
 class UMediaPlayer;
 class UMediaSource;
+class UMediaSoundComponent;
 
 UCLASS()
 class HTL_API AHTL_MainMenuController : public APlayerController
@@ -33,6 +34,9 @@ private:
     
 	UPROPERTY(EditAnywhere, Category = "Intro Video")
 	UMediaSource* IntroMediaSource;
+
+	UPROPERTY(EditAnywhere, Category = "Intro Video")
+	UMediaSoundComponent* MediaSound;
 	
 	UPROPERTY(EditAnywhere, Category = "Menu")
 	TSubclassOf<UHTL_MainMenu> MenuWidgetClass;

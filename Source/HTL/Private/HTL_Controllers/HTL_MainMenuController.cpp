@@ -3,6 +3,7 @@
 
 #include "HTL_Controllers/HTL_MainMenuController.h"
 #include "MediaPlayer.h"
+#include "MediaSoundComponent.h"
 #include "HTL_Actors/HTL_CameraActor.h"
 #include "HTL_UI/HTL_MainMenu.h"
 #include "Kismet/GameplayStatics.h"
@@ -10,12 +11,20 @@
 AHTL_MainMenuController::AHTL_MainMenuController()
 {
 	PrimaryActorTick.bCanEverTick = true;
+
+	MediaSound = CreateDefaultSubobject<UMediaSoundComponent>("Media Sound");
+	RootComponent = MediaSound;
 }
 
 void AHTL_MainMenuController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	if (IntroMediaPlayer)
+	{
+		MediaSound->SetMediaPlayer(IntroMediaPlayer);
+	}
+	
 	FInputModeUIOnly InputMode;
 	InputMode.SetLockMouseToViewportBehavior(EMouseLockMode::LockAlways);
 	SetInputMode(InputMode);

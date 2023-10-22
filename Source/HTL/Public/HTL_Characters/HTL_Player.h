@@ -156,4 +156,8 @@ private:
 	float TargetFOV = 0.f;
 
 	float CurrentFOV = 90.f;
+
+	float CameraTargetHeight = 0.f;
+
+	float CameraCurrentHeight = 0.f;
 };

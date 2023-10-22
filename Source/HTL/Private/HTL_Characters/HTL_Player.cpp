@@ -29,12 +29,12 @@ AHTL_Player::AHTL_Player()
 
 void AHTL_Player::LayPlayerDown()
 {
-	bIsCrouching = true;
+	CameraTargetHeight = 0.f;
 }
 
 void AHTL_Player::PickPlayerUp()
 {
-	bIsCrouching = false;
+	CameraTargetHeight = 60.f;
 	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 5);
 }
 
@@ -56,6 +56,9 @@ void AHTL_Player::BeginPlay()
 void AHTL_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+	CameraCurrentHeight = FMath::FInterpTo(CameraCurrentHeight, CameraTargetHeight, DeltaTime, 2.f);
+	FirstPersonCameraComponent->SetRelativeLocation({0, 0, CameraCurrentHeight});
 	
 	// For Crouching
 	if(bIsCrouching)

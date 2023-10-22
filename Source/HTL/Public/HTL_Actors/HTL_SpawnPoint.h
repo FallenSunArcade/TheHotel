@@ -21,5 +21,8 @@ protected:
 
 private:
 	UPROPERTY(EditAnywhere, Category = "Spawn Point")
-	TSubclassOf<AActor> ActorClass;
+	TSubclassOf<APawn> PawnClass;
+
+	UPROPERTY(EditAnywhere, Category = "Spawn Point")
+	AActor* PatrolPoint = nullptr;
 };

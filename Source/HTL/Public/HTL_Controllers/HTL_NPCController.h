@@ -16,7 +16,11 @@ class HTL_API AHTL_NPCController : public AAIController
 public:
 	virtual void BeginPlay() override;
 
+	void SetPatrolPoint(const FVector& Point);
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Behavior Tree")
 	UBehaviorTree* BehaviorTree;
+
+	FVector PatrolPoint;
 };

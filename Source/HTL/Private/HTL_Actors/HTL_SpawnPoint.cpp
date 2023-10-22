@@ -2,7 +2,7 @@
 
 
 #include "HTL_Actors/HTL_SpawnPoint.h"
-
+#include "HTL_Controllers/HTL_NPCController.h"
 
 AHTL_SpawnPoint::AHTL_SpawnPoint()
 {
@@ -11,7 +11,16 @@ AHTL_SpawnPoint::AHTL_SpawnPoint()
 
 void AHTL_SpawnPoint::Spawn()
 {
-	GetWorld()->SpawnActor<AActor>(ActorClass, GetActorTransform());
+	if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(PawnClass, GetActorTransform()))
+	{
+		if (AHTL_NPCController* NPCController = Cast<AHTL_NPCController>(Pawn->GetController()))
+		{
+			if (PatrolPoint)
+			{
+				NPCController->SetPatrolPoint(PatrolPoint->GetActorLocation());
+			}
+		}
+	}
 }
 
 void AHTL_SpawnPoint::BeginPlay()

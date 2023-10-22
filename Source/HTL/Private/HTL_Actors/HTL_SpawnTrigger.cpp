@@ -23,6 +23,8 @@ void AHTL_SpawnTrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 		if(SpawnPoint)
 		{
 			SpawnPoint->Spawn();
+
+			Destroy();
 		}
 	}
 }

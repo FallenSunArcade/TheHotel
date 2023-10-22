@@ -6,20 +6,17 @@
 #include "AIController.h"
 #include "HTL_NPCController.generated.h"
 
+class UBehaviorTree;
+
 UCLASS()
 class HTL_API AHTL_NPCController : public AAIController
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
-	AHTL_NPCController();
-
-protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:
+	UPROPERTY(EditAnywhere, Category = "Behavior Tree")
+	UBehaviorTree* BehaviorTree;
 };

@@ -13,4 +13,9 @@ UCLASS()
 class HTL_API UHTL_WonderTask : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
+
+public:
+	UHTL_WonderTask();
+	
+	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

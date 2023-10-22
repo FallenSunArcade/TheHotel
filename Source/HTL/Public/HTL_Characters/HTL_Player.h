@@ -31,6 +31,10 @@ public:
 	AHTL_Player();
 
 	UCameraComponent* GetCameraComponent() const {return FirstPersonCameraComponent;}
+
+	void LayPlayerDown();
+
+	void PickPlayerUp();
 	
 protected:
 	virtual void BeginPlay() override;

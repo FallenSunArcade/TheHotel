@@ -2,6 +2,8 @@
 
 
 #include "HTL_Controllers/HTL_PlayerController.h"
+
+#include "HTL_Characters/HTL_Player.h"
 #include "Kismet/GameplayStatics.h"
 #include "HTL_UI/HTL_HudOverlay.h"
 
@@ -12,6 +14,11 @@ AHTL_PlayerController::AHTL_PlayerController()
 
 void AHTL_PlayerController::MakeTransition(bool IsFadeOut, float Delay, bool IsWhite)
 {
+	if(AHTL_Player* PlayerCharacter = Cast<AHTL_Player>(UGameplayStatics::GetPlayerCharacter(this, 0)))
+	{
+		PlayerCharacter->LayPlayerDown();
+	}
+	
 	const FInputModeUIOnly InputModeUIOnly;
 	SetInputMode(InputModeUIOnly);
 	SetShowMouseCursor(false);
@@ -21,6 +28,12 @@ void AHTL_PlayerController::MakeTransition(bool IsFadeOut, float Delay, bool IsW
 
 void AHTL_PlayerController::TransitionEnded()
 {
+
+	if(AHTL_Player* PlayerCharacter = Cast<AHTL_Player>(UGameplayStatics::GetPlayerCharacter(this, 0)))
+	{
+		PlayerCharacter->PickPlayerUp();
+	}
+	
 	const FInputModeGameOnly InputModeGameOnly;
 	SetInputMode(InputModeGameOnly);
 	SetShowMouseCursor(false);

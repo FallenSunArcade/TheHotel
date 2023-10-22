@@ -27,12 +27,23 @@ AHTL_Player::AHTL_Player()
 	FirstPersonCameraComponent->bUsePawnControlRotation = true;
 }
 
+void AHTL_Player::LayPlayerDown()
+{
+	bIsCrouching = true;
+}
+
+void AHTL_Player::PickPlayerUp()
+{
+	bIsCrouching = false;
+	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 5);
+}
+
 void AHTL_Player::BeginPlay()
 {
 	Super::BeginPlay();
 
 	TargetSpeed = WalkSpeed;
-
+	
 	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
 	{
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))

@@ -29,7 +29,7 @@ AHTL_Player::AHTL_Player()
 
 void AHTL_Player::LayPlayerDown()
 {
-	CameraTargetHeight = 0.f;
+	CameraTargetHeight = -60.f;
 }
 
 void AHTL_Player::PickPlayerUp()

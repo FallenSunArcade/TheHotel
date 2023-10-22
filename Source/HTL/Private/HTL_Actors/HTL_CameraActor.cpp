@@ -28,7 +28,7 @@ void AHTL_CameraActor::StartPressed()
 	TV->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
 	if(IntroMaterial)
 	{
-		TV->SetMaterial(4, IntroMaterial);
+		TV->SetMaterial(2, IntroMaterial);
 	}
 	bStartPressed = true;
 }

@@ -22,6 +22,8 @@ public:
 
 	UFUNCTION()
 	void TransitionEnded();
+
+	void SetInputModeGameOnly();
 	
 protected:
 	virtual void BeginPlay() override;

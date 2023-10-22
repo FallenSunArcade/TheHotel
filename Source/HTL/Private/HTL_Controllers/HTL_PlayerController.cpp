@@ -31,9 +31,12 @@ void AHTL_PlayerController::TransitionEnded()
 
 	if(AHTL_Player* PlayerCharacter = Cast<AHTL_Player>(UGameplayStatics::GetPlayerCharacter(this, 0)))
 	{
-		PlayerCharacter->PickPlayerUp();
+		PlayerCharacter->StartPickUpTimer();
 	}
-	
+}
+
+void AHTL_PlayerController::SetInputModeGameOnly()
+{
 	const FInputModeGameOnly InputModeGameOnly;
 	SetInputMode(InputModeGameOnly);
 	SetShowMouseCursor(false);

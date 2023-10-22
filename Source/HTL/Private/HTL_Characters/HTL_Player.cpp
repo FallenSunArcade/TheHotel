@@ -6,6 +6,7 @@
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "HTL_Controllers/HTL_PlayerController.h"
 
 
 AHTL_Player::AHTL_Player()
@@ -32,10 +33,20 @@ void AHTL_Player::LayPlayerDown()
 	CameraTargetHeight = -60.f;
 }
 
+void AHTL_Player::StartPickUpTimer()
+{
+	GetWorld()->GetTimerManager().SetTimer(TimerHandle, this, &AHTL_Player::PickPlayerUp, GetupDelay, false);
+}
+
 void AHTL_Player::PickPlayerUp()
 {
 	CameraTargetHeight = 60.f;
 	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 5);
+
+	if (AHTL_PlayerController* PlayerController = Cast<AHTL_PlayerController>(Controller))
+	{
+		PlayerController->SetInputModeGameOnly();
+	}
 }
 
 void AHTL_Player::BeginPlay()

@@ -34,6 +34,9 @@ public:
 
 	void LayPlayerDown();
 
+	void StartPickUpTimer();
+	
+	UFUNCTION()
 	void PickPlayerUp();
 	
 protected:
@@ -144,6 +147,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	EMovementState MovementState = EMovementState::Idle;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Get up", meta = (AllowPrivateAccess = "true"))
+	float GetupDelay = 5.f;
+
 	float CurrentSpeed = 0.f;
 
 	float TargetSpeed = 0.f;
@@ -160,4 +166,6 @@ private:
 	float CameraTargetHeight = 0.f;
 
 	float CameraCurrentHeight = 0.f;
+
+	FTimerHandle TimerHandle;
 };

@@ -31,6 +31,12 @@ AHTL_Player::AHTL_Player()
 void AHTL_Player::LayPlayerDown()
 {
 	CameraTargetHeight = -60.f;
+	
+	FirstPersonCameraComponent->PostProcessSettings.bOverride_DepthOfFieldFocalDistance = true;
+	FirstPersonCameraComponent->PostProcessSettings.DepthOfFieldFocalDistance = CurrentDOFFD;
+	
+	FirstPersonCameraComponent->PostProcessSettings.bOverride_DepthOfFieldDepthBlurRadius = true;
+	FirstPersonCameraComponent->PostProcessSettings.DepthOfFieldDepthBlurRadius  = CurrentDOFBR;
 }
 
 void AHTL_Player::StartPickUpTimer()
@@ -40,6 +46,7 @@ void AHTL_Player::StartPickUpTimer()
 
 void AHTL_Player::PickPlayerUp()
 {
+	TargetRoll = 0.f;
 	CameraTargetHeight = 60.f;
 	GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(WalkCameraShakeClass, 5);
 
@@ -62,10 +69,14 @@ void AHTL_Player::BeginPlay()
 	Super::BeginPlay();
 
 	TargetSpeed = WalkSpeed;
+
+	AddControllerRollInput(CurrentRoll);
 	
-	if (APlayerController* PlayerController = Cast<APlayerController>(Controller))
+	PlayerControllerRef = Cast<AHTL_PlayerController>(Controller);
+	
+	if (PlayerControllerRef)
 	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerControllerRef->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(DefaultMappingContext, 0);
 		}
@@ -76,8 +87,24 @@ void AHTL_Player::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (PlayerControllerRef)
+	{
+		CurrentRoll = FMath::FInterpTo(CurrentRoll, TargetRoll, DeltaTime, 2.f);
+		FRotator CurrentRotation = GetControlRotation();
+		PlayerControllerRef->SetControlRotation({CurrentRotation.Pitch, CurrentRotation.Yaw, CurrentRoll});
+	}
+
+	
 	CameraCurrentHeight = FMath::FInterpTo(CameraCurrentHeight, CameraTargetHeight, DeltaTime, 2.f);
 	FirstPersonCameraComponent->SetRelativeLocation({0, 0, CameraCurrentHeight});
+
+	FirstPersonCameraComponent->PostProcessSettings.bOverride_DepthOfFieldFocalDistance = true;
+	CurrentDOFFD = FMath::FInterpTo(CurrentDOFFD, TargetDOFFD, DeltaTime, 2.f);
+	FirstPersonCameraComponent->PostProcessSettings.DepthOfFieldFocalDistance = CurrentDOFFD;
+
+	FirstPersonCameraComponent->PostProcessSettings.bOverride_DepthOfFieldDepthBlurRadius = true;
+	CurrentDOFBR = FMath::FInterpTo(CurrentDOFBR, TargetDOFBR, DeltaTime, 2.f);
+	FirstPersonCameraComponent->PostProcessSettings.DepthOfFieldDepthBlurRadius  = CurrentDOFBR;
 	
 	// For Crouching
 	if(bIsCrouching)
@@ -220,6 +247,10 @@ void AHTL_Player::StopZoomIn(const FInputActionValue& Value)
 void AHTL_Player::StopZoomOut(const FInputActionValue& Value)
 {
 	ZoomingCamera(false);
+}
+
+void AHTL_Player::PauseMenu(const FInputActionValue& Value)
+{
 }
 
 void AHTL_Player::ZoomOut(const FInputActionValue& Value)

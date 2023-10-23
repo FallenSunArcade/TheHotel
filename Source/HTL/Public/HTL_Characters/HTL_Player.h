@@ -8,6 +8,8 @@
 #include "GameFramework/Character.h"
 #include "HTL_Player.generated.h"
 
+class AHTL_PlayerController;
+
 UENUM(BlueprintType)
 enum class EMovementState : uint8
 {
@@ -68,6 +70,8 @@ protected:
 	
 	void StopZoomOut(const FInputActionValue& Value);
 
+	void PauseMenu(const FInputActionValue& Value);
+
 	UFUNCTION(BlueprintImplementableEvent)
 	void UpdateMovement(const EMovementState& State);
 
@@ -123,6 +127,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
 	UInputAction* StopZoomOutAction;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = "true"))
+	UInputAction* PauseMenuAction;
+
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Movement, meta = (AllowPrivateAccess = "true"))
 	float CrouchCapsuleHeight = 32.f;
 
@@ -152,6 +159,9 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Get up", meta = (AllowPrivateAccess = "true"))
 	float GetupDelay = 5.f;
 
+	UPROPERTY()
+	AHTL_PlayerController* PlayerControllerRef = nullptr;
+
 	float CurrentSpeed = 0.f;
 
 	float TargetSpeed = 0.f;
@@ -168,6 +178,18 @@ private:
 	float CameraTargetHeight = 0.f;
 
 	float CameraCurrentHeight = 0.f;
+
+	float TargetDOFFD = 0.f;
+
+	float TargetDOFBR = 0.f;
+
+	float CurrentDOFFD = 1.f;
+
+	float CurrentDOFBR = 1.f;
+
+	float CurrentRoll = 30.f;
+
+	float TargetRoll = 30.f;
 
 	FTimerHandle TimerHandle;
 };

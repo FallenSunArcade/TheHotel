@@ -6,7 +6,7 @@
 #include "GameFramework/PlayerController.h"
 #include "HTL_PlayerController.generated.h"
 
-class UHTL_MainMenu;
+class UHTL_PauseMenu;
 class UHTL_HudOverlay;
 class AHTL_HotelMode;
 class UMediaPlayer;

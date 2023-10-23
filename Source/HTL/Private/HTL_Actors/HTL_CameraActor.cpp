@@ -5,6 +5,7 @@
 #include "Kismet/GameplayStatics.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
+#include "HTL_Controllers/HTL_OutroController.h"
 
 AHTL_CameraActor::AHTL_CameraActor()
 {
@@ -38,6 +39,14 @@ void AHTL_CameraActor::BeginPlay()
 	Super::BeginPlay();
 	PlayerController = UGameplayStatics::GetPlayerController(this, 0);
 	PlayerController->SetViewTargetWithBlend(this);
+
+	if(bIsOutro)
+	{
+		if(AHTL_OutroController* OutroController = Cast<AHTL_OutroController>(PlayerController))
+		{
+			OutroController->StartOutroVideo(this);
+		}
+	}
 }
 
 void AHTL_CameraActor::Tick(float DeltaTime)
@@ -49,6 +58,14 @@ void AHTL_CameraActor::Tick(float DeltaTime)
 		FVector CurrentLocation = GetActorLocation();
 		FVector NewLocation = FMath::VInterpTo(CurrentLocation, ActorToLerpTo->GetActorLocation(), DeltaTime, MovementInterpolationSpeed);
 		SetActorLocation(NewLocation);
+	}
+}
+
+void AHTL_CameraActor::SetOutroMaterial(UMaterialInterface* OutroMaterial)
+{
+	if(OutroMaterial)
+	{
+		TV->SetMaterial(0, OutroMaterial);
 	}
 }
 

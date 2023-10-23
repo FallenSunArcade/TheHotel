@@ -18,6 +18,8 @@ public:
 	AHTL_CameraActor();
 
 	void StartPressed();
+
+	void SetOutroMaterial(UMaterialInterface* OutroMaterial);
 	
 protected:
 	
@@ -26,8 +28,6 @@ protected:
 	virtual void Tick(float DeltaTime) override;
 
 	USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
-
-	void ChangeToIntroMaterial();
 
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
@@ -45,17 +45,20 @@ private:
 	UPROPERTY(EditAnywhere, Category = TV)
 	UMaterialInterface* IntroMaterial = nullptr;
 	
-	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	UPROPERTY(EditAnywhere, Category = "Camera")
 	float MaxSpeed;
 
-	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	UPROPERTY(EditAnywhere, Category = "Camera")
 	bool bStartPressed = false;
 	
-	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	UPROPERTY(EditAnywhere, Category = "Camera")
 	AActor* ActorToLerpTo = nullptr;
 
-	UPROPERTY(EditAnywhere, Category = "Menu Camera")
+	UPROPERTY(EditAnywhere, Category = "Camera")
 	float MovementInterpolationSpeed  = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Camera")
+	bool bIsOutro = false;
 	
 	UPROPERTY()
 	APlayerController* PlayerController;

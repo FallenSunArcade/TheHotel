@@ -20,8 +20,6 @@ public:
 
 	void StartGameTransition(bool IsFadeOut, float Delay, bool IsWhite);
 
-	void SetBadEndingOpacity(float NewOpacity);
-
 	UFUNCTION()
 	void FadingOut();
 
@@ -37,9 +35,6 @@ protected:
 private:
 	UPROPERTY(meta = (BindWidget))
 	UImage* Overlay = nullptr;
-
-	UPROPERTY(meta = (BindWidget))
-	UImage* BadEnding = nullptr;
 	
 	FTimerHandle GameTransitionHandle;
 

@@ -11,9 +11,6 @@
 AHTL_PlayerController::AHTL_PlayerController()
 {
 	PrimaryActorTick.bCanEverTick = true;
-
-	BadEndingMediaSound = CreateDefaultSubobject<UMediaSoundComponent>("Media Sound");
-	RootComponent = BadEndingMediaSound;
 }
 
 void AHTL_PlayerController::MakeTransition(bool IsFadeOut, float Delay, bool IsWhite)
@@ -44,12 +41,7 @@ void AHTL_PlayerController::TransitionEnded(bool IsFadeOut)
 	}
 	else
 	{
-		if (BadEndingMediaPlayer && BadEndingMediaSource)
-		{
-			HudOverlayRef->SetBadEndingOpacity(1.f);
-			BadEndingMediaPlayer->OnEndReached.AddDynamic(this, &AHTL_PlayerController::OnMediaFinished);
-			BadEndingMediaPlayer->OpenSource(BadEndingMediaSource);
-		}
+		UGameplayStatics::OpenLevel(this, TEXT("OutroLevel"));
 	}
 }
 
@@ -64,11 +56,6 @@ void AHTL_PlayerController::SetInputModeGameOnly()
 void AHTL_PlayerController::HandlePassingOut()
 {
 	MakeTransition(false, 1.f, false);
-}
-
-void AHTL_PlayerController::OnMediaFinished()
-{
-	UGameplayStatics::OpenLevel(this, TEXT("MainMenu"));
 }
 
 void AHTL_PlayerController::BeginPlay()
@@ -90,11 +77,6 @@ void AHTL_PlayerController::BeginPlay()
 			HudOverlayRef->SetVisibility(ESlateVisibility::Visible);
 			HudOverlayRef->TransitionEndedDelegate.AddDynamic(this, &AHTL_PlayerController::AHTL_PlayerController::TransitionEnded);
 		}
-	}
-
-	if (BadEndingMediaPlayer)
-	{
-		BadEndingMediaSound->SetMediaPlayer(BadEndingMediaPlayer);
 	}
 
 	MakeTransition(true, 1.f, false);

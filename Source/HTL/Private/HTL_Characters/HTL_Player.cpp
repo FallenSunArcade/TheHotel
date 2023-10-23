@@ -56,11 +56,11 @@ void AHTL_Player::PickPlayerUp()
 	}
 }
 
-void AHTL_Player::PlayerDied()
+void AHTL_Player::PlayerDied(bool bHell)
 {
 	if (AHTL_PlayerController* PlayerController = Cast<AHTL_PlayerController>(Controller))
 	{
-		PlayerController->HandlePassingOut();
+		PlayerController->HandlePassingOut(bHell);
 	}
 }
 
@@ -163,6 +163,7 @@ void AHTL_Player::SetupPlayerInputComponent(UInputComponent* PlayerInputComponen
 		EnhancedInputComponent->BindAction(StopZoomInAction, ETriggerEvent::Triggered, this, &AHTL_Player::StopZoomIn);
 		EnhancedInputComponent->BindAction(ZoomOutAction, ETriggerEvent::Triggered, this, &AHTL_Player::ZoomOut);
 		EnhancedInputComponent->BindAction(StopZoomOutAction, ETriggerEvent::Triggered, this, &AHTL_Player::StopZoomOut);
+		EnhancedInputComponent->BindAction(PauseMenuAction, ETriggerEvent::Triggered, this, &AHTL_Player::PauseMenu);
 	}
 }
 
@@ -251,6 +252,7 @@ void AHTL_Player::StopZoomOut(const FInputActionValue& Value)
 
 void AHTL_Player::PauseMenu(const FInputActionValue& Value)
 {
+	PlayerControllerRef->OpenPauseMenu();
 }
 
 void AHTL_Player::ZoomOut(const FInputActionValue& Value)

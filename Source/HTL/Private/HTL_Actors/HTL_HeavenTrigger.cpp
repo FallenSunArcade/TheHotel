@@ -2,25 +2,37 @@
 
 
 #include "HTL_Actors/HTL_HeavenTrigger.h"
+#include "Components/BoxComponent.h"
+#include "HTL_Characters/HTL_Player.h"
+#include "HTL_GameInstances/HTL_GameInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 
-// Sets default values
 AHTL_HeavenTrigger::AHTL_HeavenTrigger()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+	PrimaryActorTick.bCanEverTick = false;
+
+	HeavenTrigger = CreateDefaultSubobject<UBoxComponent>(TEXT("BoxCollision"));
+	RootComponent = HeavenTrigger;
 }
 
-// Called when the game starts or when spawned
+void AHTL_HeavenTrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	if(UHTL_GameInstance* GameInstance = Cast<UHTL_GameInstance>(UGameplayStatics::GetGameInstance(this)))
+	{
+		GameInstance->SetWasEndingBad(false);
+	}
+	
+	if(AHTL_Player* Player = Cast<AHTL_Player>(OtherActor))
+	{
+		Player->PlayerDied(false);
+	}
+}
+
 void AHTL_HeavenTrigger::BeginPlay()
 {
 	Super::BeginPlay();
-	
-}
 
-// Called every frame
-void AHTL_HeavenTrigger::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
+	HeavenTrigger->OnComponentBeginOverlap.AddDynamic(this, &AHTL_HeavenTrigger::OnOverlapBegin);
 }
-

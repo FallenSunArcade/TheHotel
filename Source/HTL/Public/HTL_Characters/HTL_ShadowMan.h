@@ -14,6 +14,8 @@ class HTL_API AHTL_ShadowMan : public ACharacter
 public:
 	AHTL_ShadowMan();
 
+	void StartDeathTimer(float Delay);
+
 	UFUNCTION()
 	void KillFunction();
 

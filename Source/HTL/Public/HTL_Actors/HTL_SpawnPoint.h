@@ -25,4 +25,10 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = "Spawn Point")
 	AActor* PatrolPoint = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = "Spawn Point")
+	float MovementDelay = 1.f;
+
+	UPROPERTY(EditAnywhere, Category = "Spawn Point")
+	float DeathDelay = 5.f;
 };

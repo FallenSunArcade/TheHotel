@@ -18,6 +18,8 @@ public:
 
 	void SetPatrolPoint(const FVector& Point);
 
+	void SetMovementDelay(float Delay);
+
 private:
 	UPROPERTY(EditAnywhere, Category = "Behavior Tree")
 	UBehaviorTree* BehaviorTree;

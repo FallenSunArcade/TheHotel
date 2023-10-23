@@ -21,3 +21,8 @@ void AHTL_NPCController::SetPatrolPoint(const FVector& Point)
 	GetBlackboardComponent()->SetValueAsVector("PatrolPoint", Point);
 }
 
+void AHTL_NPCController::SetMovementDelay(float Delay)
+{
+	GetBlackboardComponent()->SetValueAsFloat("MovementDelay", Delay);
+}
+

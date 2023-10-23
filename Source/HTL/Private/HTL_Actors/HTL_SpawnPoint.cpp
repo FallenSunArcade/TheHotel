@@ -2,6 +2,7 @@
 
 
 #include "HTL_Actors/HTL_SpawnPoint.h"
+#include "HTL_Characters/HTL_ShadowMan.h"
 #include "HTL_Controllers/HTL_NPCController.h"
 
 AHTL_SpawnPoint::AHTL_SpawnPoint()
@@ -11,13 +12,16 @@ AHTL_SpawnPoint::AHTL_SpawnPoint()
 
 void AHTL_SpawnPoint::Spawn()
 {
-	if (APawn* Pawn = GetWorld()->SpawnActor<APawn>(PawnClass, GetActorTransform()))
+	if (AHTL_ShadowMan* ShadowMan = GetWorld()->SpawnActor<AHTL_ShadowMan>(PawnClass, GetActorTransform()))
 	{
-		if (AHTL_NPCController* NPCController = Cast<AHTL_NPCController>(Pawn->GetController()))
+		ShadowMan->StartDeathTimer(DeathDelay);
+		
+		if (AHTL_NPCController* NPCController = Cast<AHTL_NPCController>(ShadowMan->GetController()))
 		{
 			if (PatrolPoint)
 			{
 				NPCController->SetPatrolPoint(PatrolPoint->GetActorLocation());
+				NPCController->SetMovementDelay(MovementDelay);
 			}
 		}
 	}

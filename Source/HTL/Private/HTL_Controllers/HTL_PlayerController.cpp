@@ -64,7 +64,7 @@ void AHTL_PlayerController::HandlePassingOut(bool Hell)
 {
 	if(Hell)
 	{
-		MakeTransition(false, .5f, false);
+		MakeTransition(false, .1f, false);
 	}
 	else
 	{

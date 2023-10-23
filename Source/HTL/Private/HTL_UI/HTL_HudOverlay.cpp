@@ -13,44 +13,75 @@ void UHTL_HudOverlay::StartGameTransition(bool IsFadeOut, float Delay, bool IsWh
 {
 	if(IsWhite)
 	{
-		StartTransition(WhiteTransition, IsFadeOut, Delay);
+		StartTransition(IsFadeOut, Delay);
 	}
 	else
 	{
-		StartTransition(BlackTransition, IsFadeOut, Delay);
+		StartTransition(IsFadeOut, Delay);
+	}
+}
+
+void UHTL_HudOverlay::SetBadEndingOpacity(float NewOpacity)
+{
+	if(BadEnding)
+	{
+		BadEnding->SetOpacity(NewOpacity);
 	}
 }
 
 void UHTL_HudOverlay::FadingOut()
 {
 	Opacity -= .05f;
+
+	Opacity = FMath::Clamp(Opacity, 0.f, 1.f);
+	
 	if(Opacity > 0.f)
 	{
-		CurrentTransition->SetOpacity(Opacity);
+		Overlay->SetOpacity(Opacity);
 	}
 	else
 	{
-		CurrentTransition->SetOpacity(0.f);
+		Overlay->SetOpacity(0.f);
 		GetWorld()->GetTimerManager().ClearTimer(GameTransitionHandle);
-		TransitionEndedDelegate.Broadcast();
+		TransitionEndedDelegate.Broadcast(true);
 		UE_LOG(LogTemp, Display, TEXT("Transition done (%s)"), *GetName());
 	}
 }
 
-void UHTL_HudOverlay::StartTransition(UImage* Transition, bool IsFadeOut, float Delay)
+void UHTL_HudOverlay::FadingIn()
 {
-	if(Transition)
+	Opacity += .05f;
+	
+	Opacity = FMath::Clamp(Opacity, 0.f, 1.f);
+	
+	if(Opacity < 1.f)
+	{
+		Overlay->SetOpacity(Opacity);
+	}
+	else
+	{
+		Overlay->SetOpacity(1.f);
+		GetWorld()->GetTimerManager().ClearTimer(GameTransitionHandle);
+		TransitionEndedDelegate.Broadcast(false);
+		UE_LOG(LogTemp, Display, TEXT("Transition done (%s)"), *GetName());
+	}
+}
+
+void UHTL_HudOverlay::StartTransition(bool IsFadeOut, float Delay)
+{
+	if(Overlay)
 	{
 		if(IsFadeOut)
 		{
-			CurrentTransition = Transition;
 			Opacity = 1.f;
-			Transition->SetOpacity(1.f);
+			Overlay->SetOpacity(1.f);
 			GetWorld()->GetTimerManager().SetTimer(GameTransitionHandle, this, &UHTL_HudOverlay::FadingOut, .1f, true, Delay);
 		}
 		else
 		{
-			
+			Opacity = 0.f;
+			Overlay->SetOpacity(0.f);
+			GetWorld()->GetTimerManager().SetTimer(GameTransitionHandle, this, &UHTL_HudOverlay::FadingIn, .1f, true, Delay);
 		}
 	}
 }

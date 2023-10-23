@@ -38,6 +38,8 @@ public:
 	
 	UFUNCTION()
 	void PickPlayerUp();
+
+	void PlayerDied();
 	
 protected:
 	virtual void BeginPlay() override;

@@ -49,6 +49,14 @@ void AHTL_Player::PickPlayerUp()
 	}
 }
 
+void AHTL_Player::PlayerDied()
+{
+	if (AHTL_PlayerController* PlayerController = Cast<AHTL_PlayerController>(Controller))
+	{
+		PlayerController->HandlePassingOut();
+	}
+}
+
 void AHTL_Player::BeginPlay()
 {
 	Super::BeginPlay();

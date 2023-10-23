@@ -6,7 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "HTL_HudOverlay.generated.h"
 
-DECLARE_DYNAMIC_MULTICAST_DELEGATE(FTransitionEndedDelegate);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FTransitionEndedDelegate, bool, IsFadeOut);
 
 class UImage;
 
@@ -20,24 +20,26 @@ public:
 
 	void StartGameTransition(bool IsFadeOut, float Delay, bool IsWhite);
 
+	void SetBadEndingOpacity(float NewOpacity);
+
 	UFUNCTION()
 	void FadingOut();
+
+	UFUNCTION()
+	void FadingIn();
 	
 	UPROPERTY(BlueprintAssignable)
 	FTransitionEndedDelegate TransitionEndedDelegate;
 	
 protected:
-	void StartTransition(UImage* Transition, bool IsFadeOut, float Delay);
+	void StartTransition(bool IsFadeOut, float Delay);
 	
 private:
 	UPROPERTY(meta = (BindWidget))
-	UImage* WhiteTransition = nullptr;
+	UImage* Overlay = nullptr;
 
 	UPROPERTY(meta = (BindWidget))
-	UImage* BlackTransition = nullptr;
-
-	UPROPERTY()
-	UImage* CurrentTransition = nullptr;
+	UImage* BadEnding = nullptr;
 	
 	FTimerHandle GameTransitionHandle;
 

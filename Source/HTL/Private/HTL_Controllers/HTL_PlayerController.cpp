@@ -53,9 +53,16 @@ void AHTL_PlayerController::SetInputModeGameOnly()
 	FlushPressedKeys();
 }
 
-void AHTL_PlayerController::HandlePassingOut()
+void AHTL_PlayerController::HandlePassingOut(bool Hell)
 {
-	MakeTransition(false, 1.f, false);
+	if(Hell)
+	{
+		MakeTransition(false, .5f, false);
+	}
+	else
+	{
+		MakeTransition(false, .5f, true);
+	}
 }
 
 void AHTL_PlayerController::BeginPlay()

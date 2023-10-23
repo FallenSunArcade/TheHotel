@@ -41,7 +41,7 @@ public:
 	UFUNCTION()
 	void PickPlayerUp();
 
-	void PlayerDied();
+	void PlayerDied(bool bHell);
 	
 protected:
 	virtual void BeginPlay() override;

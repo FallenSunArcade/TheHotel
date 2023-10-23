@@ -14,14 +14,16 @@ class HTL_API AHTL_HeavenTrigger : public AActor
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
 	AHTL_HeavenTrigger();
 
+	UFUNCTION()
+	void OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
+		UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+
 protected:
-	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+private:
+	UPROPERTY(EditAnywhere, Category = "Death Trigger")
+	UBoxComponent* HeavenTrigger = nullptr;
 };

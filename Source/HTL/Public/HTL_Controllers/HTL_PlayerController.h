@@ -25,7 +25,7 @@ public:
 
 	void SetInputModeGameOnly();
 
-	void HandlePassingOut();
+	void HandlePassingOut(bool Hell);
 	
 protected:
 	virtual void BeginPlay() override;

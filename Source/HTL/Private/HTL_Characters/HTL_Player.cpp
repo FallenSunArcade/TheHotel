@@ -56,11 +56,11 @@ void AHTL_Player::PickPlayerUp()
 	}
 }
 
-void AHTL_Player::PlayerDied()
+void AHTL_Player::PlayerDied(bool bHell)
 {
 	if (AHTL_PlayerController* PlayerController = Cast<AHTL_PlayerController>(Controller))
 	{
-		PlayerController->HandlePassingOut();
+		PlayerController->HandlePassingOut(bHell);
 	}
 }
 

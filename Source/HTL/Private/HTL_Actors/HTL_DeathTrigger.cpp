@@ -26,7 +26,7 @@ void AHTL_DeathTrigger::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AAct
 	
 	if(AHTL_Player* Player = Cast<AHTL_Player>(OtherActor))
 	{
-		Player->PlayerDied();
+		Player->PlayerDied(true);
 	}
 }
 

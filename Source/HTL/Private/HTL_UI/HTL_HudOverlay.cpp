@@ -13,10 +13,14 @@ void UHTL_HudOverlay::StartGameTransition(bool IsFadeOut, float Delay, bool IsWh
 {
 	if(IsWhite)
 	{
+		FLinearColor WhiteColor = FLinearColor::White;
+		Overlay->SetColorAndOpacity(WhiteColor);
 		StartTransition(IsFadeOut, Delay);
 	}
 	else
 	{
+		FLinearColor BlackColor = FLinearColor::Black;
+		Overlay->SetColorAndOpacity(BlackColor);
 		StartTransition(IsFadeOut, Delay);
 	}
 }

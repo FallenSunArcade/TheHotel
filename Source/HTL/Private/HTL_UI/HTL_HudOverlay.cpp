@@ -21,14 +21,6 @@ void UHTL_HudOverlay::StartGameTransition(bool IsFadeOut, float Delay, bool IsWh
 	}
 }
 
-void UHTL_HudOverlay::SetBadEndingOpacity(float NewOpacity)
-{
-	if(BadEnding)
-	{
-		BadEnding->SetOpacity(NewOpacity);
-	}
-}
-
 void UHTL_HudOverlay::FadingOut()
 {
 	Opacity -= .05f;

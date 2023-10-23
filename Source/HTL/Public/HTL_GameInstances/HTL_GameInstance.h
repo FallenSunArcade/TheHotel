@@ -18,5 +18,6 @@ public:
 	void SetWasEndingBad(bool WasEndBad) { bWasEndBad = WasEndBad;}
 
 private:
-	bool bWasEndBad = false;
+	UPROPERTY(EditAnywhere)
+	bool bWasEndBad = true;
 };

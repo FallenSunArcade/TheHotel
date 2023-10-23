@@ -121,7 +121,7 @@ void AHTL_Player::Tick(float DeltaTime)
 	const float Speed = GetVelocity().Length();
 	EMovementState NewMovementState;
 	
-	if(Speed <= 0.f && GetCharacterMovement()->IsFalling())
+	if(Speed <= 0.f || GetCharacterMovement()->IsFalling())
 	{
 		NewMovementState = EMovementState::Idle;
 		GetWorld()->GetFirstPlayerController()->ClientStartCameraShake(IdleCameraShakeClass);

@@ -7,6 +7,7 @@
 #include "HTL_Characters/HTL_Player.h"
 #include "Kismet/GameplayStatics.h"
 #include "HTL_UI/HTL_HudOverlay.h"
+#include "HTL_UI/HTL_PauseMenu.h"
 
 AHTL_PlayerController::AHTL_PlayerController()
 {
@@ -45,6 +46,12 @@ void AHTL_PlayerController::TransitionEnded(bool IsFadeOut)
 	}
 }
 
+void AHTL_PlayerController::ContinuePressed()
+{
+	SetPause(false);
+	SetInputModeGameOnly();
+}
+
 void AHTL_PlayerController::SetInputModeGameOnly()
 {
 	const FInputModeGameOnly InputModeGameOnly;
@@ -63,6 +70,17 @@ void AHTL_PlayerController::HandlePassingOut(bool Hell)
 	{
 		MakeTransition(false, .5f, true);
 	}
+}
+
+void AHTL_PlayerController::OpenPauseMenu()
+{
+	const FInputModeUIOnly InputModeUIOnly;
+	SetInputMode(InputModeUIOnly);
+	SetShowMouseCursor(true);
+	FlushPressedKeys();
+	
+	PauseRef->AddToViewport();
+	Pause();
 }
 
 void AHTL_PlayerController::BeginPlay()
@@ -84,6 +102,12 @@ void AHTL_PlayerController::BeginPlay()
 			HudOverlayRef->SetVisibility(ESlateVisibility::Visible);
 			HudOverlayRef->TransitionEndedDelegate.AddDynamic(this, &AHTL_PlayerController::AHTL_PlayerController::TransitionEnded);
 		}
+	}
+
+	if(*PauseWidgetClass)
+	{
+		PauseRef = CreateWidget<UHTL_PauseMenu>(this, PauseWidgetClass);
+		PauseRef->ContinueDelegate.AddDynamic(this, &AHTL_PlayerController::AHTL_PlayerController::ContinuePressed);
 	}
 
 	MakeTransition(true, 1.f, false);

@@ -23,9 +23,14 @@ public:
 	UFUNCTION()
 	void TransitionEnded(bool IsFadeOut);
 
+	UFUNCTION()
+	void ContinuePressed();
+
 	void SetInputModeGameOnly();
 
 	void HandlePassingOut(bool Hell);
+
+	void OpenPauseMenu();
 	
 protected:
 	virtual void BeginPlay() override;
@@ -34,9 +39,15 @@ private:
 	
 	UPROPERTY(EditAnywhere, Category = "User Interface")
 	TSubclassOf<UHTL_HudOverlay> HudOverlayWidgetClass;
+
+	UPROPERTY(EditAnywhere, Category = "User Interface")
+	TSubclassOf<UHTL_PauseMenu> PauseWidgetClass;
 	
 	UPROPERTY()
 	UHTL_HudOverlay* HudOverlayRef = nullptr;
+
+	UPROPERTY()
+	UHTL_PauseMenu* PauseRef = nullptr;
 
 	UPROPERTY()
 	AHTL_HotelMode* HotelGameMode = nullptr;

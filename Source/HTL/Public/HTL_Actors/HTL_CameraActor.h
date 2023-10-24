@@ -8,6 +8,8 @@
 
 class USpringArmComponent;
 class UCameraComponent;
+class USkeletalMeshComponent;
+class UAnimMontage;
 
 UCLASS()
 class HTL_API AHTL_CameraActor : public AActor
@@ -44,6 +46,15 @@ private:
 
 	UPROPERTY(EditAnywhere, Category = TV)
 	UMaterialInterface* IntroMaterial = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = TV)
+	UMaterialInterface* Transparent = nullptr;
+
+	UPROPERTY(EditAnywhere, Category = VCR)
+	USkeletalMeshComponent* VCR;
+
+	UPROPERTY(EditAnywhere, Category = VCR)
+	UAnimMontage* InsertTapeMontage = nullptr;
 	
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	float MaxSpeed;
@@ -55,7 +66,7 @@ private:
 	AActor* ActorToLerpTo = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
-	float MovementInterpolationSpeed  = 1.f;
+	float MovementInterpolationSpeed  = .75f;
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	bool bIsOutro = false;

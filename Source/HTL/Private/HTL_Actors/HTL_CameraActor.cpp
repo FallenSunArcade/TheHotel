@@ -6,6 +6,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "HTL_Controllers/HTL_OutroController.h"
+#include "Components/SkeletalMeshComponent.h"
 
 AHTL_CameraActor::AHTL_CameraActor()
 {
@@ -16,6 +17,9 @@ AHTL_CameraActor::AHTL_CameraActor()
 
 	TV = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TV"));
 	TV->SetupAttachment(RootComponent);
+
+	VCR = CreateDefaultSubobject<USkeletalMeshComponent>("VCR");
+	VCR->SetupAttachment(RootComponent);
 	
 	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
@@ -26,10 +30,14 @@ AHTL_CameraActor::AHTL_CameraActor()
 
 void AHTL_CameraActor::StartPressed()
 {
+	VCR->GetAnimInstance()->Montage_Play(InsertTapeMontage);
+
 	TV->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	if(IntroMaterial)
+	VCR->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	
+	if(IntroMaterial && Transparent)
 	{
-		TV->SetMaterial(2, IntroMaterial);
+		TV->SetMaterial(1, IntroMaterial);
 	}
 	bStartPressed = true;
 }
@@ -53,11 +61,25 @@ void AHTL_CameraActor::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	if(bStartPressed)
+	if(bStartPressed && ActorToLerpTo)
 	{
 		FVector CurrentLocation = GetActorLocation();
-		FVector NewLocation = FMath::VInterpTo(CurrentLocation, ActorToLerpTo->GetActorLocation(), DeltaTime, MovementInterpolationSpeed);
-		SetActorLocation(NewLocation);
+		FRotator CurrentRotation = GetActorRotation();
+
+		if(CurrentLocation != ActorToLerpTo->GetActorLocation() && CurrentRotation != ActorToLerpTo->GetActorRotation())
+		{
+			FVector NewLocation = FMath::VInterpTo(CurrentLocation, ActorToLerpTo->GetActorLocation(), DeltaTime, MovementInterpolationSpeed);
+			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ActorToLerpTo->GetActorRotation(), DeltaTime, MovementInterpolationSpeed);
+		
+			SetActorLocation(NewLocation);
+			SetActorRotation(NewRotation);
+		}
+		else
+		{
+			TV->SetMaterial(0, Transparent);
+			TV->SetMaterial(2, Transparent);
+		}
+
 	}
 }
 

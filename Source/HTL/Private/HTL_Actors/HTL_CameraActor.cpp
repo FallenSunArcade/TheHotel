@@ -28,18 +28,12 @@ AHTL_CameraActor::AHTL_CameraActor()
 	CameraComponent->SetupAttachment(SpringArmComponent);
 }
 
-void AHTL_CameraActor::StartPressed()
+void AHTL_CameraActor::StartVideo()
 {
-	VCR->GetAnimInstance()->Montage_Play(InsertTapeMontage);
-
-	TV->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	VCR->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
-	
-	if(IntroMaterial && Transparent)
+	if(IntroMaterial)
 	{
 		TV->SetMaterial(1, IntroMaterial);
 	}
-	bStartPressed = true;
 }
 
 void AHTL_CameraActor::BeginPlay()
@@ -90,4 +84,18 @@ void AHTL_CameraActor::SetOutroMaterial(UMaterialInterface* OutroMaterial)
 		TV->SetMaterial(0, OutroMaterial);
 	}
 }
+
+void AHTL_CameraActor::InsertTape()
+{
+	VCR->GetAnimInstance()->Montage_Play(InsertTapeMontage);
+}
+
+void AHTL_CameraActor::PanIn()
+{
+	TV->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	VCR->DetachFromComponent(FDetachmentTransformRules::KeepWorldTransform);
+	
+	bStartPressed = true;
+}
+
 

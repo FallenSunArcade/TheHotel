@@ -47,8 +47,27 @@ void AHTL_MainMenuController::BeginPlay()
 void AHTL_MainMenuController::GameStarted()
 {
 	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
-	CameraActor->StartPressed();
+	CameraActor->InsertTape();
+	GetWorld()->GetTimerManager().SetTimer(IntroPlayDelayHandle, this, &AHTL_MainMenuController::DelayedStart, 2.f, false);
+}
 
+void AHTL_MainMenuController::OnMediaFinished()
+{
+	UGameplayStatics::OpenLevel(this, TEXT("Level1"));
+}
+
+void AHTL_MainMenuController::DelayedStart()
+{
+	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
+	CameraActor->PanIn();
+
+	GetWorld()->GetTimerManager().SetTimer(IntroPlayDelayHandle, this, &AHTL_MainMenuController::DelayedStart2, 3.f, false);
+}
+
+void AHTL_MainMenuController::DelayedStart2()
+{
+	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
+	CameraActor->StartVideo();
 	if (IntroMediaPlayer && IntroMediaSource)
 	{
 		IntroMediaPlayer->OnEndReached.AddDynamic(this, &AHTL_MainMenuController::OnMediaFinished);
@@ -56,9 +75,4 @@ void AHTL_MainMenuController::GameStarted()
 		IntroMediaPlayer->Play();
 		IntroMediaPlayer->SetLooping(false);
 	}
-}
-
-void AHTL_MainMenuController::OnMediaFinished()
-{
-	UGameplayStatics::OpenLevel(this, TEXT("Level1"));
 }

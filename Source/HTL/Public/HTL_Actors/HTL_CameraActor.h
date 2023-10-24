@@ -19,9 +19,13 @@ class HTL_API AHTL_CameraActor : public AActor
 public:
 	AHTL_CameraActor();
 
-	void StartPressed();
+	void StartVideo();
 
 	void SetOutroMaterial(UMaterialInterface* OutroMaterial);
+
+	void InsertTape();
+
+	void PanIn();
 	
 protected:
 	
@@ -66,7 +70,7 @@ private:
 	AActor* ActorToLerpTo = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
-	float MovementInterpolationSpeed  = .75f;
+	float MovementInterpolationSpeed  = 1.f;
 
 	UPROPERTY(EditAnywhere, Category = "Camera")
 	bool bIsOutro = false;

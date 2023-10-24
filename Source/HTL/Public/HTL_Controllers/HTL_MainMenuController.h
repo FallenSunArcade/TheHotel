@@ -27,6 +27,12 @@ protected:
 
 	UFUNCTION()
 	void OnMediaFinished();
+
+	UFUNCTION()
+	void DelayedStart();
+
+	UFUNCTION()
+	void DelayedStart2();
 	
 private:
 	UPROPERTY(EditAnywhere, Category = "Intro Video")
@@ -43,4 +49,6 @@ private:
 
 	UPROPERTY()
 	UHTL_MainMenu* MainMenuRef = nullptr;
+
+	FTimerHandle IntroPlayDelayHandle;
 };

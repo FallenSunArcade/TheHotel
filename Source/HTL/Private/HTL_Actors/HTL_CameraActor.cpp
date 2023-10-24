@@ -60,7 +60,7 @@ void AHTL_CameraActor::Tick(float DeltaTime)
 		FVector CurrentLocation = GetActorLocation();
 		FRotator CurrentRotation = GetActorRotation();
 
-		if(CurrentLocation != ActorToLerpTo->GetActorLocation() && CurrentRotation != ActorToLerpTo->GetActorRotation())
+		if(!AreVectorsNearlyEqual(CurrentLocation, ActorToLerpTo->GetActorLocation(), 2.f))
 		{
 			FVector NewLocation = FMath::VInterpTo(CurrentLocation, ActorToLerpTo->GetActorLocation(), DeltaTime, MovementInterpolationSpeed);
 			FRotator NewRotation = FMath::RInterpTo(CurrentRotation, ActorToLerpTo->GetActorRotation(), DeltaTime, MovementInterpolationSpeed);
@@ -75,6 +75,14 @@ void AHTL_CameraActor::Tick(float DeltaTime)
 		}
 
 	}
+}
+
+bool AHTL_CameraActor::AreVectorsNearlyEqual(const FVector& Vec1, const FVector& Vec2, float Tolerance)
+{
+    float Distance = (Vec1 - Vec2).Size();
+
+    // Check if the distance is less than the tolerance
+    return Distance <= Tolerance;
 }
 
 void AHTL_CameraActor::SetOutroMaterial(UMaterialInterface* OutroMaterial)

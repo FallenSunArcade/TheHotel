@@ -61,7 +61,7 @@ void AHTL_MainMenuController::DelayedStart()
 	AHTL_CameraActor* CameraActor = Cast<AHTL_CameraActor>(GetViewTarget());
 	CameraActor->PanIn();
 
-	GetWorld()->GetTimerManager().SetTimer(IntroPlayDelayHandle, this, &AHTL_MainMenuController::DelayedStart2, 3.f, false);
+	GetWorld()->GetTimerManager().SetTimer(IntroPlayDelayHandle, this, &AHTL_MainMenuController::DelayedStart2, 4.5f, false);
 }
 
 void AHTL_MainMenuController::DelayedStart2()

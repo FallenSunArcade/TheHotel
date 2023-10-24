@@ -35,6 +35,8 @@ protected:
 
 	USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
 
+	bool AreVectorsNearlyEqual(const FVector& Vec1, const FVector& Vec2, float Tolerance = 1.0f);
+
 private:
 	UPROPERTY(VisibleAnywhere, Category = "Components")
 	USceneComponent* SceneComponent;
